@@ -276,7 +276,7 @@ input[type=search]:focus-visible{outline:2px solid var(--accent);outline-offset:
   <div class="panel">
     <h2>주차별 지수 <span>월요일 시작 · 카드를 누르면 그 주만 봅니다</span></h2>
     <div class="weeks" id="weeks"></div>
-    <div class="rules"><b>통합 보도 논조 지수 · v2</b> 확대 신중 100 · 중립·양론 50 · 확대 긍정 0점. 종합·경제·방송 가중치 1, 전문지 ¼의 가중 평균입니다. 두 매체군 점수도 각각 표시합니다. <b>이해관계 태그는 감점하지 않습니다.</b> 종합매체 10건·5개 매체 미만은 표본 부족으로 표시하고 전주 비교를 보류합니다. 진행 중인 주는 집계 중입니다. 모든 주차에 같은 계산식을 적용하며, 전주 차이는 반올림 전 원값으로 계산합니다. <b>잠정값:</b> 기존 기사 분류 기준이며 원문 재검토·사진·전재 기사 정리는 아직 반영하지 않았습니다. 기간·매체 필터와 무관하게 선택한 주 전체로 계산합니다.</div>
+    <div class="rules"><b>통합 보도 논조 지수 · v2</b> 등급: 탁월 80점 이상 · 우수 70점 이상 · 양호 60점 이상 · 관심 50점 이상 · 보완 50점 미만. 표본 부족은 점수와 무관하게 판단 보류.  확대 신중 100 · 중립·양론 50 · 확대 긍정 0점. 종합·경제·방송 가중치 1, 전문지 ¼의 가중 평균입니다. 두 매체군 점수도 각각 표시합니다. <b>이해관계 태그는 감점하지 않습니다.</b> 종합매체 10건·5개 매체 미만은 표본 부족으로 표시하고 전주 비교를 보류합니다. 진행 중인 주는 집계 중입니다. 모든 주차에 같은 계산식을 적용하며, 전주 차이는 반올림 전 원값으로 계산합니다. <b>잠정값:</b> 기존 기사 분류 기준이며 원문 재검토·사진·전재 기사 정리는 아직 반영하지 않았습니다. 기간·매체 필터와 무관하게 선택한 주 전체로 계산합니다.</div>
   </div>
 </div>
 
@@ -431,7 +431,10 @@ function weekStats(arr){
     g:g.length,t:t.length,G:counts(g),selfG,selfT,flagged,excluded:arr.length-valid.length};
 }
 function fmtScore(n){return n==null?'–':n.toFixed(1);}
-function scoreStatus(s,i){return s.score==null?'데이터 없음':!s.sufficient?'표본 부족':wkEnd(i)>=dstr(new Date())?'집계 중':'참고 지수';}
+function scoreGrade(s){return !s.sufficient||s.score==null?'N':s.score>=80?'S':s.score>=70?'A':s.score>=60?'B':s.score>=50?'C':'D';}
+const SCORE_LABELS={S:'탁월',A:'우수',B:'양호',C:'관심',D:'보완',N:'판단 보류'};
+const SCORE_COLORS={S:'#002FB9',A:'#244ED5',B:'#15804A',C:'#A36B00',D:'#C53131',N:'#7A8493'};
+function scoreStatus(s,i){return s.score==null?'데이터 없음':!s.sufficient?'판단 보류':SCORE_LABELS[scoreGrade(s)]+(wkEnd(i)>=dstr(new Date())?' · 잠정':'');}
 function scoreDelta(a,b){return a&&b&&a.sufficient&&b.sufficient&&a.score!=null&&b.score!=null?Math.round((a.tone-b.tone)*10)/10:null;}
 
 function renderScore(){
@@ -442,13 +445,13 @@ function renderScore(){
   $('#scoreWeekLabel').textContent=`W${cur+1} · ${md(wkStart(cur))}~${md(wkEnd(cur))}`;
   $('#scoreNum').textContent=fmtScore(s.score);
   $('#ringArc').style.strokeDashoffset=String(326.7*(1-(s.score||0)/100));
-  $('#ringArc').style.stroke=s.sufficient?'var(--con)':'var(--neu)';
-  $('#scoreGrade').textContent=scoreStatus(s,cur);$('#scoreGrade').className='grade gN';
+  $('#ringArc').style.stroke=SCORE_COLORS[scoreGrade(s)];
+  $('#scoreGrade').textContent=scoreStatus(s,cur);$('#scoreGrade').className='grade g'+scoreGrade(s);
   $('#scoreDelta').textContent=d==null?'전주 비교 보류':`${d>0?'+':''}${d.toFixed(1)}점 전주 대비`;
   $('#scoreDelta').className='delta flat';
   $('#scoreMeta').innerHTML=`<div class="subscores"><div>종합·경제·방송 <b>${fmtScore(s.gScore)}</b><small>${s.g}건 · ${s.outlets}개 매체</small></div><div>전문지 <b>${fmtScore(s.tScore)}</b><small>${s.t}건</small></div></div><p>높을수록 약배송 확대에 신중한 보도입니다. 국민 여론이나 홍보 성과 점수가 아닙니다.</p>${!s.sufficient?'<p><b>표본 부족 · 해석 보류</b><br>종합매체 10건·5개 매체 이상일 때 전주 비교를 제공합니다.</p>':''}<p>기존 자동 분류 기준 잠정값 · 사진·전재 기사 정리 및 원문 재검토 전${s.excluded?` · 유효하지 않은 분류 ${s.excluded}건 제외`:''}</p>`;
   $('#quests').innerHTML=`<details><summary>이해관계 태그 ${s.flagged.length}건 · 원문 검토 대상</summary><p>태그만으로 직역 비판을 확정하지 않으며, 통합점수에서 감점하지 않습니다.</p>${s.flagged.map(a=>`<p><a href="${safeArticleLink(a.link)}" target="_blank" rel="noopener noreferrer">${esc(a.title)}</a><br><small>${esc(a.outlet)} · ${esc(a.day||a.pubDate.slice(0,10))}</small></p>`).join('')||'<p>해당 태그가 없습니다. 비판 보도가 없다는 뜻은 아닙니다.</p>'}</details>`;
-  $('#weeks').innerHTML=idx.map(i=>{const w=S[i],ev=EVENTS[wkStart(i)];return `<button class="wk" type="button" data-w="${i}" aria-pressed="${state.week===i}"><div class="wl">W${i+1} · ${md(wkStart(i))}~${md(wkEnd(i))}</div><div class="ws">${fmtScore(w.score)}<small class="gN">${scoreStatus(w,i)}</small></div><div class="wm">종합 ${fmtScore(w.gScore)} · 전문 ${fmtScore(w.tScore)}<br>기사 ${w.g+w.t}건 · 이해관계 태그 ${w.flagged.length}건</div>${ev?`<div class="ev">${ev}</div>`:''}</button>`;}).join('');
+  $('#weeks').innerHTML=idx.map(i=>{const w=S[i],ev=EVENTS[wkStart(i)];return `<button class="wk" type="button" data-w="${i}" aria-pressed="${state.week===i}"><div class="wl">W${i+1} · ${md(wkStart(i))}~${md(wkEnd(i))}</div><div class="ws" style="color:${SCORE_COLORS[scoreGrade(w)]}">${fmtScore(w.score)}<small class="g${scoreGrade(w)}">${scoreStatus(w,i)}</small></div><div class="wm">종합 ${fmtScore(w.gScore)} · 전문 ${fmtScore(w.tScore)}<br>기사 ${w.g+w.t}건 · 이해관계 태그 ${w.flagged.length}건</div>${ev?`<div class="ev">${ev}</div>`:''}</button>`;}).join('');
   $$('.wk').forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.w;state.week=state.week===i?null:i;state.period=0;state.shown=40;render();}));
 }
 function safeArticleLink(link){try{const u=new URL(link);return ['https:','http:'].includes(u.protocol)?esc(u.href):'#';}catch{return '#';}}
@@ -587,8 +590,8 @@ function drawReport(){
   const d=scoreDelta(r.ws,r.prev);
   ctx.fillStyle='#F3F5FB';roundRect(ctx,64,240,952,250,20);ctx.fill();
   ctx.fillStyle=MUTE;ctx.font=F(900,24);ctx.fillText(`주간 통합 보도 논조 지수 · W${r.cur+1} (${md(wkStart(r.cur))}~${md(wkEnd(r.cur))})`,100,292);
-  ctx.fillStyle=BLUE;ctx.font=F(900,116);ctx.fillText(fmtScore(r.ws.score),100,420);
-  ctx.fillStyle=INK;ctx.font=F(900,34);ctx.fillText(scoreStatus(r.ws,r.cur),510,365);
+  ctx.fillStyle=SCORE_COLORS[scoreGrade(r.ws)];ctx.font=F(900,116);ctx.fillText(fmtScore(r.ws.score),100,420);
+  ctx.fillStyle=SCORE_COLORS[scoreGrade(r.ws)];roundRect(ctx,492,320,310,66,12);ctx.fill();ctx.fillStyle='#fff';ctx.font=F(900,32);ctx.fillText(scoreStatus(r.ws,r.cur),510,365);
   ctx.fillStyle=MUTE;ctx.font=F(700,28);ctx.fillText(d==null?'전주 비교 보류':`${d>0?'+':''}${d.toFixed(1)}점 전주 대비`,510,410);
   ctx.font=F(700,23);ctx.fillText(`종합 ${fmtScore(r.ws.gScore)} · 전문 ${fmtScore(r.ws.tScore)} · 이해관계 태그 ${r.ws.flagged.length}건 / 감점 없음`,100,468);
   // coverage
