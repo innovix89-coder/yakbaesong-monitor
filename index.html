@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="대한약사회 국민건강권 사수 비상대책위원회 홍보팀">
 <meta property="og:title" content="약배송 여론 모니터">
-<meta property="og:description" content="비대면진료 처방의약품 배송 확대 논의에 대한 언론 보도 논조를 매일 자동 수집·분류하고, 주간 보도환경 지수로 한눈에 봅니다.">
+<meta property="og:description" content="비대면진료 처방의약품 배송 확대 논의에 대한 언론 보도 논조를 매일 자동 수집·분류하고, 주간 통합 보도 논조 지수로 한눈에 봅니다.">
 <meta property="og:url" content="https://innovix89-coder.github.io/yakbaesong-monitor/">
 <meta property="og:image" content="https://innovix89-coder.github.io/yakbaesong-monitor/og.png">
 <meta property="og:image:width" content="1200">
@@ -18,7 +18,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="약배송 여론 모니터">
 <meta name="twitter:image" content="https://innovix89-coder.github.io/yakbaesong-monitor/og.png">
-<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}.subscores{display:grid;grid-template-columns:1fr 1fr;gap:12px}.subscores>div{border:1px solid var(--line);padding:12px;border-radius:10px}.subscores b{display:block;font-size:26px}.subscores small{display:block}.quests summary{cursor:pointer;font-weight:700;min-height:44px;padding-block:10px}.quests details{overflow-wrap:anywhere}.wk .ws{flex-wrap:wrap;gap:6px}.wk .ws small{font-size:12px}.ring .num{font-size:34px}
+</style>
 </head>
 <body>
 
@@ -264,7 +265,7 @@ input[type=search]:focus-visible{outline:2px solid var(--accent);outline-offset:
 <div id="app">
 <div class="grid gscore">
   <div class="panel score">
-    <h2>주간 보도환경 지수 <span id="scoreWeekLabel"></span></h2>
+    <h2>주간 통합 보도 논조 지수 <span id="scoreWeekLabel"></span></h2>
     <div class="scoreRow">
       <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="var(--band-2)" stroke-width="12"/><circle id="ringArc" cx="60" cy="60" r="52" fill="none" stroke="var(--accent)" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg><div class="num"><span id="scoreNum">–</span><small>/ 100</small></div></div>
       <div class="gradeBox"><div class="grade gN" id="scoreGrade">–</div><div class="delta flat" id="scoreDelta"></div></div>
@@ -275,7 +276,7 @@ input[type=search]:focus-visible{outline:2px solid var(--accent);outline-offset:
   <div class="panel">
     <h2>주차별 지수 <span>월요일 시작 · 카드를 누르면 그 주만 봅니다</span></h2>
     <div class="weeks" id="weeks"></div>
-    <div class="rules"><b>산출 방식</b> 종합·경제·방송 기사 1건 = 확대 신중 100 · 중립 50 · 확대 긍정 0점의 가중 평균. 직역 전문지는 일반 여론과 구분해 가중치 ¼. <b>감점</b> 약사 직역의 이해관계를 쟁점화한 기사 1건당 종합지 −5 · 전문지 −1 (최대 −30). <b>구간</b> 탁월 80+ · 우수 70+ · 양호 60+ · 관심 50+ · 보완 50 미만. <b>주간 점검 항목</b> 3개 충족 여부를 함께 표시. 지수는 기간·매체 필터와 무관하게 주 단위로 산출됩니다.</div>
+    <div class="rules"><b>통합 보도 논조 지수 · v2</b> 확대 신중 100 · 중립·양론 50 · 확대 긍정 0점. 종합·경제·방송 가중치 1, 전문지 ¼의 가중 평균입니다. 두 매체군 점수도 각각 표시합니다. <b>이해관계 태그는 감점하지 않습니다.</b> 종합매체 10건·5개 매체 미만은 표본 부족으로 표시하고 전주 비교를 보류합니다. 진행 중인 주는 집계 중입니다. 모든 주차에 같은 계산식을 적용하며, 전주 차이는 반올림 전 원값으로 계산합니다. <b>잠정값:</b> 기존 기사 분류 기준이며 원문 재검토·사진·전재 기사 정리는 아직 반영하지 않았습니다. 기간·매체 필터와 무관하게 선택한 주 전체로 계산합니다.</div>
   </div>
 </div>
 
@@ -357,7 +358,7 @@ input[type=search]:focus-visible{outline:2px solid var(--accent);outline-offset:
 (function(){
 const FR={safety:"환자 안전",finance:"건보 재정",platform:"플랫폼·민영화",access:"접근성·편의",procedure:"절차·입법",selfinterest:"직역 이해관계",action:"집회·행동",overseas:"해외사례",pharmacy:"약국 경영",fact:"사실관계 공방",politics:"국회·정치",internal:"약사회 내부"};
 const SN={pro:"확대 긍정",neutral:"중립·양론",con:"확대 신중"};
-const GN={S:"탁월",A:"우수",B:"양호",C:"관심",D:"보완",N:"–"};
+
 const ON={all:"전체 매체",general:"종합·경제·방송",trade:"전문지"};
 const CLS={pro:"pro",neutral:"neu",con:"con"};
 const W0=new Date(2026,7,17);
@@ -412,47 +413,46 @@ function base(){return all.filter(a=>inPeriod(a)&&(state.otype==="all"||a.outlet
 function counts(arr){const c={pro:0,neutral:0,con:0};arr.forEach(a=>{if(c[a.stance]!==undefined)c[a.stance]++;});return c;}
 function stackHTML(c){const t=c.pro+c.neutral+c.con||1;return ['pro','neutral','con'].map(k=>`<i class="${CLS[k]}" style="width:${c[k]/t*100}%" title="${SN[k]} ${c[k]}"></i>`).join('');}
 function pct(n,t){return t?Math.round(n/t*100):0;}
-function grade(s){return s>=80?'S':s>=70?'A':s>=60?'B':s>=50?'C':'D';}
+
 
 // ---- weekly scoring ----
 function weekStats(arr){
-  const g=arr.filter(a=>a.outletType==='general'), t=arr.filter(a=>a.outletType!=='general');
   const v={con:100,neutral:50,pro:0};
-  let num=0,den=0; g.forEach(a=>{num+=v[a.stance];den+=1;}); t.forEach(a=>{num+=v[a.stance]*.25;den+=.25;});
-  const tone=den?num/den:0;
-  const selfG=g.filter(a=>(a.frames||[]).includes('selfinterest')).length, selfT=t.filter(a=>(a.frames||[]).includes('selfinterest')).length;
-  const pen=Math.min(30,selfG*5+selfT*1);
-  const score=den?Math.max(0,Math.round(tone-pen)):null;
-  const G=counts(g);
-  const fr=k=>g.filter(a=>(a.frames||[]).includes(k)).length;
-  const quests=[
-    {t:'종합지에서 확대 신중 ≥ 확대 긍정',s:`신중 ${G.con} vs 긍정 ${G.pro}`,ok:g.length>0&&G.con>=G.pro},
-    {t:'직역 이해관계 쟁점화 기사 없음',s:`${selfG+selfT}건`,ok:selfG+selfT===0},
-    {t:'안전·절차 프레임 ≥ 접근성·편의 (종합지)',s:`${fr('safety')+fr('procedure')} vs ${fr('access')}`,ok:g.length>0&&fr('safety')+fr('procedure')>=fr('access')}
-  ];
-  return {score,tone,pen,g:g.length,t:t.length,G,selfG,selfT,quests,cleared:quests.filter(q=>q.ok).length};
+  const valid=arr.filter(a=>Object.hasOwn(v,a.stance)&&['general','trade'].includes(a.outletType));
+  const g=valid.filter(a=>a.outletType==='general'), t=valid.filter(a=>a.outletType==='trade');
+  const average=a=>a.length?a.reduce((n,x)=>n+v[x.stance],0)/a.length:null;
+  const gScore=average(g),tScore=average(t),den=g.length+t.length*.25;
+  const tone=den?((gScore||0)*g.length+(tScore||0)*t.length*.25)/den:null;
+  const flagged=valid.filter(a=>(a.frames||[]).includes('selfinterest'));
+  const selfG=flagged.filter(a=>a.outletType==='general').length,selfT=flagged.length-selfG;
+  const outlets=new Set(g.map(a=>a.outlet).filter(Boolean)).size;
+  const sufficient=g.length>=10&&outlets>=5;
+  return {score:tone==null?null:Math.round(tone*10)/10,tone,gScore,tScore,sufficient,outlets,
+    g:g.length,t:t.length,G:counts(g),selfG,selfT,flagged,excluded:arr.length-valid.length};
 }
+function fmtScore(n){return n==null?'–':n.toFixed(1);}
+function scoreStatus(s,i){return s.score==null?'데이터 없음':!s.sufficient?'표본 부족':wkEnd(i)>=dstr(new Date())?'집계 중':'참고 지수';}
+function scoreDelta(a,b){return a&&b&&a.sufficient&&b.sufficient&&a.score!=null&&b.score!=null?Math.round((a.tone-b.tone)*10)/10:null;}
+
 function renderScore(){
-  const byW={}; all.forEach(a=>{const i=wkIdx(a.day||a.pubDate.slice(0,10)); if(i<0)return;(byW[i]=byW[i]||[]).push(a);});
-  const idx=Object.keys(byW).map(Number).sort((a,b)=>a-b); if(!idx.length)return;
-  const cur=state.week!=null?state.week:idx[idx.length-1];
-  const S={}; idx.forEach(i=>S[i]=weekStats(byW[i]));
-  const s=S[cur]||weekStats([]), prev=S[cur-1];
-  $('#scoreWeekLabel').textContent=`W${cur+1} · ${md(wkStart(cur))}~${md(wkEnd(cur))}${cur===idx[idx.length-1]?' · 진행 중':''}`;
-  $('#scoreNum').textContent=s.score==null?'–':s.score;
+  const byW={};all.forEach(a=>{const i=wkIdx(a.day||a.pubDate.slice(0,10));if(i>=0)(byW[i]=byW[i]||[]).push(a);});
+  const idx=Object.keys(byW).map(Number).sort((a,b)=>a-b);if(!idx.length)return;
+  const cur=state.week!=null?state.week:idx[idx.length-1],S={};idx.forEach(i=>S[i]=weekStats(byW[i]));
+  const s=S[cur]||weekStats([]),prev=S[cur-1],d=scoreDelta(s,prev);
+  $('#scoreWeekLabel').textContent=`W${cur+1} · ${md(wkStart(cur))}~${md(wkEnd(cur))}`;
+  $('#scoreNum').textContent=fmtScore(s.score);
   $('#ringArc').style.strokeDashoffset=String(326.7*(1-(s.score||0)/100));
-  const gEl=$('#scoreGrade'); const gr=s.score==null?'N':grade(s.score); gEl.textContent=GN[gr]; gEl.className='grade g'+gr;
-  $('#ringArc').style.stroke=`var(--${gr==='S'?'accent':gr==='A'?'con':gr==='B'?'good':gr==='C'?'neu':gr==='D'?'pro':'band-mute'})`;
-  const dEl=$('#scoreDelta');
-  if(prev&&prev.score!=null&&s.score!=null){const d=s.score-prev.score;dEl.textContent=(d>0?'▲ +':d<0?'▼ ':'= ')+d+' 전주 대비';dEl.className='delta '+(d>0?'up':d<0?'down':'flat');}else{dEl.textContent='첫 주';dEl.className='delta flat';}
-  let streak=0; for(let i=cur;i>=0;i--){if(S[i]&&S[i].score!=null&&S[i].score>=60)streak++;else break;}
-  const best=idx.reduce((b,i)=>S[i].score!=null&&(b==null||S[i].score>S[b].score)?i:b,null);
-  $('#scoreMeta').innerHTML=`종합지 <b>${s.g}</b>건 (긍정 ${s.G.pro} · 중립 ${s.G.neutral} · 신중 ${s.G.con}) · 전문지 ${s.t}건<br>논조 ${Math.round(s.tone)} − 감점 ${s.pen} · 양호 이상 연속 <b>${streak}</b>주${best!=null?` · 최고 W${best+1} ${S[best].score}`:''}`;
-  $('#quests').innerHTML=s.quests.map(q=>`<div class="q ${q.ok?'done':''}"><span class="box">✓</span><div><div class="qt">${q.t}</div><div class="qs">${q.s}${q.ok?' · 충족':''}</div></div></div>`).join('');
-  $('#weeks').innerHTML=idx.map(i=>{const w=S[i];const gr=w.score==null?'N':grade(w.score);const ev=EVENTS[wkStart(i)];
-    return `<button class="wk" type="button" data-w="${i}" aria-pressed="${state.week===i}"><div class="wl">W${i+1} · ${md(wkStart(i))}~${md(wkEnd(i))}${i===idx[idx.length-1]?' · 진행 중':''}</div><div class="ws">${w.score==null?'–':w.score}<small class="g${gr}">${GN[gr]}</small></div><div class="wm">종합 ${w.g} · 전문 ${w.t}${w.selfG+w.selfT?` · 이해관계 ${w.selfG+w.selfT}`:''}</div><div class="wq" title="점검 항목 ${w.cleared}/3">${w.quests.map(q=>`<i class="${q.ok?'on':''}"></i>`).join('')}</div>${ev?`<div class="ev">${ev}</div>`:''}</button>`;}).join('');
+  $('#ringArc').style.stroke=s.sufficient?'var(--con)':'var(--neu)';
+  $('#scoreGrade').textContent=scoreStatus(s,cur);$('#scoreGrade').className='grade gN';
+  $('#scoreDelta').textContent=d==null?'전주 비교 보류':`${d>0?'+':''}${d.toFixed(1)}점 전주 대비`;
+  $('#scoreDelta').className='delta flat';
+  $('#scoreMeta').innerHTML=`<div class="subscores"><div>종합·경제·방송 <b>${fmtScore(s.gScore)}</b><small>${s.g}건 · ${s.outlets}개 매체</small></div><div>전문지 <b>${fmtScore(s.tScore)}</b><small>${s.t}건</small></div></div><p>높을수록 약배송 확대에 신중한 보도입니다. 국민 여론이나 홍보 성과 점수가 아닙니다.</p>${!s.sufficient?'<p><b>표본 부족 · 해석 보류</b><br>종합매체 10건·5개 매체 이상일 때 전주 비교를 제공합니다.</p>':''}<p>기존 자동 분류 기준 잠정값 · 사진·전재 기사 정리 및 원문 재검토 전${s.excluded?` · 유효하지 않은 분류 ${s.excluded}건 제외`:''}</p>`;
+  $('#quests').innerHTML=`<details><summary>이해관계 태그 ${s.flagged.length}건 · 원문 검토 대상</summary><p>태그만으로 직역 비판을 확정하지 않으며, 통합점수에서 감점하지 않습니다.</p>${s.flagged.map(a=>`<p><a href="${safeArticleLink(a.link)}" target="_blank" rel="noopener noreferrer">${esc(a.title)}</a><br><small>${esc(a.outlet)} · ${esc(a.day||a.pubDate.slice(0,10))}</small></p>`).join('')||'<p>해당 태그가 없습니다. 비판 보도가 없다는 뜻은 아닙니다.</p>'}</details>`;
+  $('#weeks').innerHTML=idx.map(i=>{const w=S[i],ev=EVENTS[wkStart(i)];return `<button class="wk" type="button" data-w="${i}" aria-pressed="${state.week===i}"><div class="wl">W${i+1} · ${md(wkStart(i))}~${md(wkEnd(i))}</div><div class="ws">${fmtScore(w.score)}<small class="gN">${scoreStatus(w,i)}</small></div><div class="wm">종합 ${fmtScore(w.gScore)} · 전문 ${fmtScore(w.tScore)}<br>기사 ${w.g+w.t}건 · 이해관계 태그 ${w.flagged.length}건</div>${ev?`<div class="ev">${ev}</div>`:''}</button>`;}).join('');
   $$('.wk').forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.w;state.week=state.week===i?null:i;state.period=0;state.shown=40;render();}));
 }
+function safeArticleLink(link){try{const u=new URL(link);return ['https:','http:'].includes(u.protocol)?esc(u.href):'#';}catch{return '#';}}
+
 
 function render(){
   renderScore();
@@ -513,7 +513,7 @@ function renderInsight(per,G,gt,T,tt,arr){
     p.push(`<p>일반 국민 접점이 큰 <strong>종합·경제·방송 ${gt}건</strong>의 논조는 긍정 ${pct(G.pro,gt)}% / 중립 ${pct(G.neutral,gt)}% / 신중 ${pct(G.con,gt)}%로 ${lead==='팽팽'?'<strong>균형</strong>에 가깝습니다':`<strong>${lead}</strong> 쪽이 다소 우세합니다`}. 직역 전문지(${tt}건)는 신중 논조가 ${pct(T.con,tt)}%로, 일반 여론과는 구분해 볼 필요가 있습니다.</p>`);}
   const self=arr.filter(a=>(a.frames||[]).includes('selfinterest')).length;
   const sf=arr.filter(a=>(a.frames||[]).includes('safety')).length, ac=arr.filter(a=>(a.frames||[]).includes('access')).length, act=arr.filter(a=>(a.frames||[]).includes('action')).length;
-  p.push(`<p>주요 쟁점 프레임: <strong>환자 안전 ${sf}건</strong>, <strong>접근성·편의 ${ac}건</strong>. 약사 직역의 이해관계를 쟁점화한 기사는 ${self}건${self?'이며, 아래 목록에서 해당 기사를 확인할 수 있습니다':'입니다'}.</p>`);
+  p.push(`<p>주요 쟁점 프레임: <strong>환자 안전 ${sf}건</strong>, <strong>접근성·편의 ${ac}건</strong>. 이해관계 태그가 붙은 검토 대상 기사는 ${self}건${self?'이며, 아래 목록에서 해당 기사를 확인할 수 있습니다':'입니다'}.</p>`);
   if(arr.length)p.push(`<p>집회·행동 관련 보도는 ${act}건(${pct(act,arr.length)}%)입니다. 이 비중이 안전·절차 프레임보다 커지면 보도의 초점이 정책 쟁점보다 행동 자체에 놓이고 있음을 시사합니다.</p>`);
   const kw={}; per.filter(a=>a.stance==='pro').forEach(a=>(a.keywords||[]).forEach(w=>kw[w]=(kw[w]||0)+1));
   const top=Object.entries(kw).sort((a,b)=>b[1]-a[1]).slice(0,4).map(e=>e[0]);
@@ -554,22 +554,23 @@ function reportData(){
   return {cur,ws,prev,arr,scopeLabel,G,T,gt,tt,self,pick};
 }
 function reportText(){
-  const r=reportData(); const now=new Date(); const gr=r.ws.score==null?'N':grade(r.ws.score);
-  const d=r.prev&&r.prev.score!=null&&r.ws.score!=null?r.ws.score-r.prev.score:null;
+  const r=reportData(); const now=new Date();
+  const d=scoreDelta(r.ws,r.prev);
   const L=[];
   L.push(`[약배송 여론 모니터] ${dayLabel(now)} 리포트`);
   L.push(`대한약사회 국민건강권 사수 비상대책위원회 홍보팀`);
   L.push('');
-  L.push(`■ 주간 보도환경 지수 W${r.cur+1} (${md(wkStart(r.cur))}~${md(wkEnd(r.cur))})`);
-  L.push(`   ${r.ws.score==null?'-':r.ws.score}점 · ${GN[gr]}${d==null?'':d>0?` · 전주 대비 +${d}`:d<0?` · 전주 대비 ${d}`:' · 전주와 동일'}`);
-  L.push(`   점검 항목 ${r.ws.cleared}/3 충족`+(r.ws.selfG+r.ws.selfT?` · 직역 이해관계 기사 ${r.ws.selfG+r.ws.selfT}건`:''));
+  L.push(`■ 주간 통합 보도 논조 지수 W${r.cur+1} (${md(wkStart(r.cur))}~${md(wkEnd(r.cur))})`);
+  L.push(`   ${fmtScore(r.ws.score)}점 · ${scoreStatus(r.ws,r.cur)}${d==null?'':d>0?` · 전주 대비 +${d}`:d<0?` · 전주 대비 ${d}`:' · 전주와 동일'}`);
+  L.push(`   종합 ${fmtScore(r.ws.gScore)} · 전문 ${fmtScore(r.ws.tScore)} · 이해관계 태그 ${r.ws.flagged.length}건(검토 대상, 감점 없음)`);
+  L.push('   기존 분류 기준 잠정값 · 원문 재검토 및 사진·전재 정리 전 · 국민 여론/성과 점수 아님');
   L.push('');
   L.push(`■ ${r.scopeLabel} 보도 ${r.arr.length}건 (종합·경제·방송 ${r.gt} · 전문지 ${r.tt})`);
   if(r.gt)L.push(`   종합·경제·방송 논조: 긍정 ${pct(r.G.pro,r.gt)}% · 중립 ${pct(r.G.neutral,r.gt)}% · 신중 ${pct(r.G.con,r.gt)}%`);
   if(r.tt)L.push(`   전문지 논조: 긍정 ${pct(r.T.pro,r.tt)}% · 중립 ${pct(r.T.neutral,r.tt)}% · 신중 ${pct(r.T.con,r.tt)}%`);
   L.push('');
   if(r.pick.length){L.push('■ 주요 기사'); r.pick.forEach((a,i)=>{L.push(`${i+1}. ${a.title} — ${a.outlet} (${SN[a.stance]})`);L.push(`   ${a.link}`);});L.push('');}
-  L.push('※ 내부 참고용 · 논조는 기사 제목·리드 기준 자동 분류');
+  L.push('※ v2 잠정값 · 원문 재검토·중복 정리 전 · 논조는 제목·리드 기준 자동 분류');
   return L.join('\n');
 }
 function wrapText(ctx,text,x,y,maxW,lh,maxLines){const chars=[...text];let line='',lines=0;for(let i=0;i<chars.length;i++){const test=line+chars[i];if(ctx.measureText(test).width>maxW&&line){if(lines===maxLines-1){ctx.fillText(line.slice(0,-1)+'…',x,y);return y+lh;}ctx.fillText(line,x,y);y+=lh;lines++;line=chars[i];}else line=test;}if(line){ctx.fillText(line,x,y);y+=lh;}return y;}
@@ -583,17 +584,13 @@ function drawReport(){
   ctx.fillStyle=INK;ctx.font=F(900,60);ctx.fillText('약배송 여론 모니터',64,150);
   ctx.fillStyle=MUTE;ctx.font=F(700,26);ctx.fillText(`${dayLabel(new Date())} 리포트 · ${r.scopeLabel}`,64,196);
   // index block
-  const gr=r.ws.score==null?'N':grade(r.ws.score); const d=r.prev&&r.prev.score!=null&&r.ws.score!=null?r.ws.score-r.prev.score:null;
+  const d=scoreDelta(r.ws,r.prev);
   ctx.fillStyle='#F3F5FB';roundRect(ctx,64,240,952,250,20);ctx.fill();
-  ctx.fillStyle=MUTE;ctx.font=F(900,24);ctx.fillText(`주간 보도환경 지수 · W${r.cur+1} (${md(wkStart(r.cur))}~${md(wkEnd(r.cur))})`,100,292);
-  ctx.fillStyle=BLUE;ctx.font=F(900,150);ctx.fillText(String(r.ws.score==null?'–':r.ws.score),100,435);
-  const nw=ctx.measureText(String(r.ws.score==null?'–':r.ws.score)).width;
-  const bandCol={S:BLUE,A:BLUE,B:'#12A150',C:'#F2B705',D:RED,N:GRAY}[gr];
-  ctx.fillStyle=bandCol;roundRect(ctx,100+nw+30,360,200,72,14);ctx.fill();
-  ctx.fillStyle=gr==='C'?'#1a1400':'#fff';ctx.font=F(900,38);ctx.textAlign='center';ctx.fillText(GN[gr],100+nw+130,411);ctx.textAlign='left';
-  ctx.fillStyle=d==null?MUTE:d>0?'#12A150':d<0?RED:MUTE;ctx.font=F(900,30);
-  ctx.fillText(d==null?'첫 주':d>0?`▲ +${d} 전주 대비`:d<0?`▼ ${d} 전주 대비`:'= 전주와 동일',100+nw+260,410);
-  ctx.fillStyle=MUTE;ctx.font=F(700,24);ctx.fillText(`점검 항목 ${r.ws.cleared}/3 충족 · 종합지 ${r.ws.g}건 · 전문지 ${r.ws.t}건`,100,470);
+  ctx.fillStyle=MUTE;ctx.font=F(900,24);ctx.fillText(`주간 통합 보도 논조 지수 · W${r.cur+1} (${md(wkStart(r.cur))}~${md(wkEnd(r.cur))})`,100,292);
+  ctx.fillStyle=BLUE;ctx.font=F(900,116);ctx.fillText(fmtScore(r.ws.score),100,420);
+  ctx.fillStyle=INK;ctx.font=F(900,34);ctx.fillText(scoreStatus(r.ws,r.cur),510,365);
+  ctx.fillStyle=MUTE;ctx.font=F(700,28);ctx.fillText(d==null?'전주 비교 보류':`${d>0?'+':''}${d.toFixed(1)}점 전주 대비`,510,410);
+  ctx.font=F(700,23);ctx.fillText(`종합 ${fmtScore(r.ws.gScore)} · 전문 ${fmtScore(r.ws.tScore)} · 이해관계 태그 ${r.ws.flagged.length}건 / 감점 없음`,100,468);
   // coverage
   let y=560;
   ctx.fillStyle=INK;ctx.font=F(900,32);ctx.fillText(`${r.scopeLabel} 보도 ${r.arr.length}건`,64,y);
@@ -613,12 +610,12 @@ function drawReport(){
     ctx.fillStyle=INK;ctx.font=F(700,27);y=wrapText(ctx,a.title,100,y+6,900,36,2);ctx.fillStyle=MUTE;ctx.font=F(700,22);ctx.fillText(`${a.outlet} · ${SN[a.stance]}`,100,y+2);y+=54;});
   // footer
   ctx.fillStyle=LINE;ctx.fillRect(64,H-90,952,2);
-  ctx.fillStyle=MUTE;ctx.font=F(700,20);ctx.fillText('내부 참고용 · 논조는 기사 제목·리드 기준 자동 분류 · 네이버 뉴스 검색 기반',64,H-50);
+  ctx.fillStyle=MUTE;ctx.font=F(700,20);ctx.fillText('v2 잠정값 · 원문 재검토·사진·전재 정리 전 · 국민 여론/성과 점수 아님',64,H-50);
   ctx.fillStyle=BLUE;ctx.font=F(900,20);ctx.textAlign='right';ctx.fillText('KPA 대한약사회',1016,H-50);ctx.textAlign='left';
 }
 function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
 function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(t._h);t._h=setTimeout(()=>t.hidden=true,2200);}
-function openReport(){$('#modal').hidden=false;refreshReport();}
+function openReport(){rscope=state.week!=null?'week':'7';press('rscope',rscope);$('#modal').hidden=false;refreshReport();}
 async function refreshReport(){$('#rtext').value=reportText();try{await document.fonts.ready;}catch(e){}drawReport();}
 $('#reportBtn').addEventListener('click',openReport);
 $('#closeBtn').addEventListener('click',()=>{$('#modal').hidden=true;});
